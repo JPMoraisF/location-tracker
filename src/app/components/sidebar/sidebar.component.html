@@ -1,0 +1,11 @@
+<div class="sidebar">
+    <h1>My waypoints</h1>
+    <button (click)="onClick()">Click to load</button>
+    <hr>
+    <div class="sidebar_list"><div
+        *ngFor="let location of locations">
+        <p>Name: {{ location.name.common }}</p>
+        <p>Latitude: {{ location.capitalInfo.latlng[0] }}</p>
+        <p>Longitude: {{ location.capitalInfo.latlng[1] }}</p>
+    </div></div>
+</div>

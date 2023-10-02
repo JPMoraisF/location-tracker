@@ -1,0 +1,9 @@
+.sidebar {
+    height: 100%;
+  }
+
+  .sidebar_list {
+    overflow-y: auto;
+    max-height: 300px;
+  }
+  
