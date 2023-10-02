@@ -1,5 +1,7 @@
 <div class="map"
-    leaflet [leafletOptions]="options">
+    leaflet 
+    [leafletOptions]="options"
+    [leafletLayers]="getLayers()">
 
 </div>
 <button (click)="addLocation()">Add Location</button>

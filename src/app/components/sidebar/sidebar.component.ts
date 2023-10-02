@@ -19,8 +19,8 @@ export class SidebarComponent implements OnInit, OnDestroy{
     this.locationSub.unsubscribe();
   }
 
-  onClick(){
-    this.locationService.getSACapitals();
+  onClickLoad(){
+    this.locationService.getLocations();
   }
 
   ngOnInit() {
