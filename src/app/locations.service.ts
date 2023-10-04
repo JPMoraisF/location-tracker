@@ -8,14 +8,12 @@ import { Subject } from "rxjs";
 export class LocationsService {
 
     locationSub = new Subject<LocationObject[]>();
-    private locationsArray: LocationObject[] = [];
 
-    // private locationsArray: LocationObject[] = [
-    //     { Latitude: -8.1252745, Longitude: -34.9022615, title: "Casa"},
-    //     { Latitude: -8.1196817, Longitude: -34.9048434, title: "Shopping"},
-    //     { Latitude: -8.1184174, Longitude: -34.8934826, title: "Praia"},
-    //     { Latitude: -15.79, Longitude: -47.88, title: "Capital"},
-    // ];
+    private locationsArray: LocationObject[] = [
+        { capitalInfo: {latlng: [-8.1252745, -34.9022615]}, name: {common:"Point 1"}, id : 1 },
+        { capitalInfo: {latlng: [-8.1196817, -34.9048434]}, name: {common:"Point 2"}, id : 2 },
+        { capitalInfo: {latlng: [-8.1184174, -34.8934826]}, name: {common:"Point 3"}, id : 3 },
+    ];
 
     constructor(private httpClient: HttpClient) { }
     
@@ -23,33 +21,18 @@ export class LocationsService {
         return this.locationSub.asObservable();
     }
 
-    addLocation() {
-        const newLocation: LocationObject =  {
-            capitalInfo: {
-                latlng: [-8.1276114, -34.9039503]
-            },
-            name: {
-                common: "New Location"
-            }
-        }
+    addLocation(newLocation: LocationObject){
         this.locationsArray.push(newLocation);
-        this.locationSub.next([...this.locationsArray])
-        console.log('added');
-        
+        this.locationSub.next([...this.locationsArray]);
+    }
+
+    removeLocation(id: number){
+        this.locationsArray = this.locationsArray.filter(elem => elem.id != id);
+        this.locationSub.next([...this.locationsArray]);
     }
 
     getLocations(): LocationObject[] {
-        return this.locationsArray;
+        this.locationSub.next([...this.locationsArray]);
+        return this.locationsArray
     }
-
-    getSACapitals() {
-        // this.httpClient.get<{ capitalInfo: { latlng: number[]}}[]>('https://restcountries.com/v3.1/capital/brasil')
-        this.httpClient.get<LocationObject[]>('https://restcountries.com/v3.1/capital/brasil')
-          .subscribe((response) => {
-            console.log(response)
-            this.locationsArray.push(...response)
-            this.locationSub.next([...this.locationsArray]);
-          });
-      }
-      
 }
