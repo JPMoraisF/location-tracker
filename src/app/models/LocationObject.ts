@@ -5,4 +5,5 @@ export interface LocationObject {
     capitalInfo: {
         latlng: number[]
     }
+    id: number
 }

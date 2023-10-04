@@ -45,8 +45,22 @@ export class MapComponent implements OnInit, OnDestroy {
     this.locationSub.unsubscribe();
   }
 
+  removeLocation(){
+    this.locationService.removeLocation(4);
+  }
+
   addLocation(){
-    this.markerList.push(new Leaflet.Marker(Leaflet.latLng(-8.1222955, -34.8940244), {
+    var newLocation: LocationObject = {
+      name: {
+        common: "Point 4",
+      },
+      capitalInfo: {
+        latlng: [-8.1222955, -34.8940244]
+      },
+      id: 4
+    }
+    this.locationService.addLocation(newLocation);
+    this.markerList.push(new Leaflet.Marker(Leaflet.latLng(newLocation.capitalInfo.latlng[0], newLocation.capitalInfo.latlng[1]), {
       icon: new Leaflet.Icon({
         iconSize: [50, 41],
         iconAnchor: [13, 41],
