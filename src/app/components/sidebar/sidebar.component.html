@@ -1,11 +1,26 @@
 <div class="sidebar">
-    <h1>My waypoints</h1>
-    <button (click)="onClickLoad()">Click to load locations</button>
-    <hr>
-    <div class="sidebar_list"><div
-        *ngFor="let location of locations">
-        <p>Name: {{ location.name.common }}</p>
-        <p>Latitude: {{ location.capitalInfo.latlng[0] }}</p>
-        <p>Longitude: {{ location.capitalInfo.latlng[1] }}</p>
-    </div></div>
+    <div class="sidebar-header">
+        <p>My waypoints</p>
+    </div>
+
+    <div class="sidebar-list">
+        <div class="list-wrapper">
+            <mat-accordion *ngFor="let location of locations">
+                <mat-expansion-panel class="list-item">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ location.name.common }}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur aliquam molestias perspiciatis
+                        sapiente dicta architecto ullam, in labore veritatis, nesciunt ea accusantium quae expedita
+                        adipisci possimus rerum molestiae commodi id.</p>
+                    <mat-action-row>
+                        <button mat-raised-button color="accent" (click)="onFocusLocation(location)">FOCUS</button>
+                        <button mat-raised-button color="accent" (click)="onDeleteLocation(location)">DELETE</button>
+                    </mat-action-row>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </div>
 </div>

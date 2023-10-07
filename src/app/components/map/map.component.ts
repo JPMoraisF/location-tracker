@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { LocationsService } from '../../locations.service';
 
 import * as Leaflet from 'leaflet';
@@ -12,13 +12,13 @@ import { LocationObject } from 'src/app/models/LocationObject';
 })
 export class MapComponent implements OnInit, OnDestroy {
   private locationSub: Subscription = new Subscription();
-  public mapCenter: Leaflet.LatLng = new Leaflet.LatLng(-15.79, -47.88)
+  private mapCenterSub: Subscription = new Subscription();
   public tileLayer: Leaflet.TileLayer = new Leaflet.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors',
   } as Leaflet.TileLayerOptions)
-  public mapZoom = 12;
+  public mapZoom = 15;
   private markerList: Leaflet.Marker[] = [];
-  private locations: LocationObject[] =  [ ];
+  public mapCenter:  Leaflet.LatLng = new Leaflet.LatLng(-15.79, -47.88);
 
   constructor(public locationService: LocationsService) {
   }
@@ -26,27 +26,25 @@ export class MapComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.locationSub = this.locationService.getLocationSubscriber()
     .subscribe((locations) => {
-      this.locations = locations;
-      this.markerList = this.locations.map((location) => {
+      this.markerList = locations.map((location) => {
         return new Leaflet.Marker(Leaflet.latLng(location.capitalInfo.latlng[0], location.capitalInfo.latlng[1]), {
           icon: new Leaflet.Icon({
             iconSize: [50, 41],
             iconAnchor: [13, 41],
             iconUrl: 'assets/pngegg.png',
           }),
-        }).addEventListener('click', (event) => {
-          console.log('clicked marker name '+ location.name.common)
-        })
+        });
       })
     });
+    this.mapCenterSub = this.locationService.getMapCenterSubscriber()
+    .subscribe((mapCenter) => {
+      return this.mapCenter = new Leaflet.LatLng(mapCenter.lat, mapCenter.lon)
+    })
   }
 
   ngOnDestroy(): void {
     this.locationSub.unsubscribe();
-  }
-
-  removeLocation(){
-    this.locationService.removeLocation(4);
+    this.mapCenterSub.unsubscribe();
   }
 
   addLocation(){
@@ -60,15 +58,6 @@ export class MapComponent implements OnInit, OnDestroy {
       id: 4
     }
     this.locationService.addLocation(newLocation);
-    this.markerList.push(new Leaflet.Marker(Leaflet.latLng(newLocation.capitalInfo.latlng[0], newLocation.capitalInfo.latlng[1]), {
-      icon: new Leaflet.Icon({
-        iconSize: [50, 41],
-        iconAnchor: [13, 41],
-        iconUrl: 'assets/pngegg.png',
-      }),
-    }).addEventListener('click', (event) => {
-      console.log('clicked marker')
-    }));
   }
 
   getLayers = (): Leaflet.Layer[] => {
@@ -76,10 +65,5 @@ export class MapComponent implements OnInit, OnDestroy {
      this.tileLayer,
       ...this.markerList,
     ] as Leaflet.Layer[];
-  };
-
-  options: Leaflet.MapOptions = {
-    zoom: 12,
-    center: new Leaflet.LatLng(-8.1246097, -34.9020686),
   };
 }

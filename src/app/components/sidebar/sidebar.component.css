@@ -1,9 +1,34 @@
 .sidebar {
-    height: 100%;
-  }
+    height: 100vh;
+}
 
-  .sidebar_list {
-    overflow-y: auto;
-    max-height: 300px;
-  }
-  
+.sidebar-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    padding: 10px;
+    z-index: 1;
+}
+
+.sidebar-list {
+    overflow-y: auto; /* Permite rolagem vertical quando o conteúdo exceder a altura disponível */
+    max-height: calc(100vh - 120px);
+}
+
+.list-wrapper {
+    padding: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .list-wrapper {
+        padding: 3px;
+    }
+
+    .sidebar-header {
+        position: sticky;
+        top: 0;
+        background-color: white;
+        padding: 2px;
+        z-index: 1;
+    }
+}
