@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LocationsService } from 'src/app/locations.service';
 import { LocationObject } from 'src/app/models/LocationObject';
@@ -10,17 +10,22 @@ import { LocationObject } from 'src/app/models/LocationObject';
 })
 export class SidebarComponent implements OnInit, OnDestroy{
   private locationSub: Subscription = new Subscription();
+  panelOpenState = false;
   locations: LocationObject[] = [];
 
-
   constructor(public locationService: LocationsService) {
+    
   }
+  onDeleteLocation(location: LocationObject){
+    this.locationService.removeLocation(location.id);
+  }
+
+  onFocusLocation(location: LocationObject){
+    this.locationService.centerMap(location.capitalInfo.latlng[0], location.capitalInfo.latlng[1]);
+  }
+
   ngOnDestroy(): void {
     this.locationSub.unsubscribe();
-  }
-
-  onClickLoad(){
-    this.locationService.getLocations();
   }
 
   ngOnInit() {
@@ -28,5 +33,6 @@ export class SidebarComponent implements OnInit, OnDestroy{
     .subscribe((locations) => {
       this.locations = locations
     });
+    this.locationService.getLocations();
   }
 }

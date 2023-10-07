@@ -1,8 +1,6 @@
 <div class="map"
     leaflet 
-    [leafletOptions]="options"
-    [leafletLayers]="getLayers()">
-
+    [leafletZoom]="mapZoom"
+    [leafletLayers]="getLayers()"
+    [leafletCenter]="mapCenter">
 </div>
-<button (click)="addLocation()">Add Location</button>
-<button (click)="removeLocation()">Remove Location</button>
