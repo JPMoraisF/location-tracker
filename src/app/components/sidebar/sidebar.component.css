@@ -1,17 +1,19 @@
-.sidebar {
-    height: 100vh;
+.sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 40vw;
 }
 
-.sidebar-header {
-    position: sticky;
-    top: 0;
-    background-color: white;
-    padding: 10px;
-    z-index: 1;
+.form-field {
+    display: flex;
+    width: 100%;
+}
+.sidebar-tab {
+    width: 100%;
 }
 
 .sidebar-list {
-    overflow-y: auto; /* Permite rolagem vertical quando o conteúdo exceder a altura disponível */
+    overflow-y: auto;
     max-height: calc(100vh - 120px);
 }
 
@@ -19,16 +21,21 @@
     padding: 10px;
 }
 
+.list-item {
+    margin: 10px 0px
+}
+
+.sidebar-container {
+    width: 40vw;
+}
+
 @media screen and (max-width: 768px) {
     .list-wrapper {
         padding: 3px;
     }
 
-    .sidebar-header {
-        position: sticky;
-        top: 0;
-        background-color: white;
-        padding: 2px;
-        z-index: 1;
+    .sidebar-wrapper {
+        height: 40vh;
+        width: 100%;
     }
 }

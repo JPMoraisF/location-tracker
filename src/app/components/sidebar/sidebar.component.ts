@@ -12,10 +12,18 @@ export class SidebarComponent implements OnInit, OnDestroy{
   private locationSub: Subscription = new Subscription();
   panelOpenState = false;
   locations: LocationObject[] = [];
+  searchTerm: string = '';
 
   constructor(public locationService: LocationsService) {
     
   }
+
+  get filteredLocations() {
+    return this.locations.filter(location =>
+      location.name.common.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
   onDeleteLocation(location: LocationObject){
     this.locationService.removeLocation(location.id);
   }
@@ -24,6 +32,10 @@ export class SidebarComponent implements OnInit, OnDestroy{
     this.locationService.centerMap(location.capitalInfo.latlng[0], location.capitalInfo.latlng[1]);
   }
 
+  onSearchInputChange() {
+    this.filteredLocations;
+  }
+  
   ngOnDestroy(): void {
     this.locationSub.unsubscribe();
   }

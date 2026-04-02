@@ -1,26 +1,40 @@
-<div class="sidebar">
-    <div class="sidebar-header">
-        <p>My waypoints</p>
-    </div>
-
-    <div class="sidebar-list">
-        <div class="list-wrapper">
-            <mat-accordion *ngFor="let location of locations">
-                <mat-expansion-panel class="list-item">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            {{ location.name.common }}
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur aliquam molestias perspiciatis
-                        sapiente dicta architecto ullam, in labore veritatis, nesciunt ea accusantium quae expedita
-                        adipisci possimus rerum molestiae commodi id.</p>
-                    <mat-action-row>
-                        <button mat-raised-button color="accent" (click)="onFocusLocation(location)">FOCUS</button>
-                        <button mat-raised-button color="accent" (click)="onDeleteLocation(location)">DELETE</button>
-                    </mat-action-row>
-                </mat-expansion-panel>
-            </mat-accordion>
-        </div>
-    </div>
+<div class="sidebar-wrapper">
+    <mat-tab-group class="sidebar-tab">
+        <mat-tab label="Waypoints">
+            <form class="example-form">
+                <mat-form-field class="form-field">
+                    <mat-label>Search for a waypoint</mat-label>
+                    <input name="searchInput" (input)="onSearchInputChange()"  matInput [(ngModel)]="searchTerm" >
+                </mat-form-field>
+            </form>
+            <div class="sidebar-list">
+                <div class="list-wrapper" *ngIf="filteredLocations.length > 0">
+                    <mat-accordion *ngFor="let location of filteredLocations" multi>
+                        <mat-expansion-panel class="list-item">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    {{ location.name.common }}
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur aliquam molestias
+                                perspiciatis
+                                sapiente dicta architecto ullam, in labore veritatis, nesciunt ea accusantium quae
+                                expedita
+                                adipisci possimus rerum molestiae commodi id.</p>
+                            <mat-action-row>
+                                <button mat-raised-button color="accent"
+                                    (click)="onFocusLocation(location)">FOCUS</button>
+                                    <button mat-raised-button color="accent"
+                                    >EDIT</button>
+                                <button mat-raised-button color="accent"
+                                    (click)="onDeleteLocation(location)">DELETE</button>
+                            </mat-action-row>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+                <p *ngIf="filteredLocations.length === 0">No matching locations</p>
+            </div>
+        </mat-tab>
+        <mat-tab label="Routes"> Routes</mat-tab>
+    </mat-tab-group>
 </div>
